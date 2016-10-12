@@ -51,6 +51,9 @@
   float: none;
   }
 </style>
+
+
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -63,6 +66,25 @@
   #myModal .modal-dialog  {width:350px;
   }
 }
+
+
+
+
+
+<div class="onesixzindex" style="position: relative; z-index: 2;">
+
+var oneasix;
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-6.geojson",function(data){
+      oneasix = L.geoJson(data, {onEachFeature: onEachFeaturelarge} ).addTo(map);
+      });
+</div>
+
+
+
+
+
+
+
 </style>
 </head>
 
@@ -164,44 +186,43 @@
         }
         }; 
 
-var oneasix;
-$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-6.geojson",function(data){
-      oneasix = L.geoJson(data, {onEachFeature: onEachFeaturelarge} ).addTo(map).bringToFront;
-      });
+
+
+
 
 var oneaeight;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-8.geojson",function(data){
-      oneaeight = L.geoJson(data, {onEachFeature: onEachFeaturelarge} ).addTo(map).bringToFront;
+      oneaeight = L.geoJson(data, {onEachFeature: onEachFeaturelarge} ).addTo(map);
       });
 
 var oneathirteen;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-13.geojson",function(data){
-      oneathirteen = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map).bringToFront;
+      oneathirteen = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map);
       });
 
 var onebnineteen;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1b-19.geojson",function(data){
-      onebnineteen = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map).bringToFront;
+      onebnineteen = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map);
       });
 
 var onebtwentytwo;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1b-22.geojson",function(data){
-      onebfifteen = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map).bringToFront;
+      onebfifteen = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map);
       });
 
 var oneaten;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-10.geojson",function(data){
-      oneten = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map).bringToFront;
+      oneten = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map);
       });
 
 var oneafifteen;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-15.geojson",function(data){
-      onefifteen = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map).bringToFront;
+      onefifteen = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map);
       });
 
 var onebtwentyfive;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1b-25.geojson",function(data){
-      onebtwentyfive = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map).bringToFront;
+      onebtwentyfive = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map);
       });
 
 </script>
