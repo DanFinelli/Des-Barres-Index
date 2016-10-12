@@ -7,18 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-
-    <!-- !!!Change the title -->
 <title>testing overlapping geoj</title>
-
-
 
 <link rel="icon" 
       type="image/png" 
       href="../img/brand-fav.png">
 <meta name="viewport" content="initial-scale=1.0, initial-scale=1.0">
-<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+<script src='https://unpkg.com/leaflet@1.0.1/dist/leaflet.js'></script>
+<link href='https://unpkg.com/leaflet@1.0.1/dist/leaflet.css' rel='stylesheet' />
 <style>
   body { margin:0; padding:0; }
   #map { 
@@ -78,10 +74,7 @@
 </style>
 </head>
 
-
 <body>
-
-
 
 <div class="container">
     <div class="row">
@@ -94,65 +87,47 @@
 <div class="container">
   <div class="row">
         <div class="col-sm-12">
-
-
         </div>
   </div>
 
-
-    <!-- Footer 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" >
-                    <ul class="list-inline">
-                        <li>
-                        <a href="../index.html">Home</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        
-                        <li>
-                            <a href="../menu.html">Menu</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="../about.html">About</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="../contact.html">Contact</a>
-                        </li>
-                    </ul>
-                    <p class="copyright text-muted small">Copyright &copy; 2016 Leventhal Map Center. All Rights Reserved</p>
-                </div>
-            </div>
-        </div>
-    </footer>-->
 
 
 <script>
           // Tiles and loading location
 
+        var map = L.map('map') 
+ 
 
-// !!!Change setView location if needed (center) - http://leafletjs.com/examples/quick-start-example.html
+    map.createPane('south');
+    map.getPane('south').style.zIndex = 401;
+    map.getPane('south').style.pointerEvents = 'none';
 
-        var map = L.map('map').setView([42.35245, -71.06489], 9);   
+    map.createPane('middle');
+    map.getPane('middle').style.zIndex = 402;
+    map.getPane('middle').style.pointerEvents = 'none';
+
+    map.createPane('north');
+    map.getPane('north').style.zIndex = 403;
+    map.getPane('north').style.pointerEvents = 'none';
 
 
-
-
-       
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }).addTo(map);
-
           
+
+
+map.setView({ lat: 42.35245, lng: -71.06489}, 9);
+
+
+
         var options = {
             minZoom: 12,
             maxZoom: 20,
             opacity: 1.0,
             tms: true,
             zIndex: 2,};
+
 
 
 // !!!Change style to fit thumbnail (variety, use hexcode ex color:#009933)
@@ -204,41 +179,21 @@
 
 
 
-// !!!Change .geoJson location (github, boston atlas footprint, raw URL)
-
-
-
-
-
 var geotestlayersouth;
 $.getJSON("https://raw.githubusercontent.com/DanFinelli/overlapGeoJ/master/simpletestcorrect33.geojson",function(data){
-      geotestlayersouth = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map).bringToFront;
+      geotestlayersouth = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'south'}).addTo(map);
       });
 
 var geotestlayermiddle;
 $.getJSON("https://raw.githubusercontent.com/DanFinelli/overlapGeoJ/master/simpletestcorrect.geojson",function(data){
-      geotestlayermiddle = L.geoJson(data, {onEachFeature: onEachFeature2} ).addTo(map).bringToFront;
+      geotestlayermiddle = L.geoJson(data, {onEachFeature: onEachFeature2, pane: 'middle'}).addTo(map);
       });
 
 var geotestlayernorth;
 $.getJSON("https://raw.githubusercontent.com/DanFinelli/overlapGeoJ/master/simpletestcorrect2overlap.geojson",function(data){
-      geotestlayernorth = L.geoJson(data, {onEachFeature: onEachFeature} ).addTo(map).bringToFront;
+      geotestlayernorth = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'north'}).addTo(map);
       });
 
-
-
-//var OrderLayers = ['geotestlayernorth', 'geotestlayersouth', 'geotestlayermiddle']
-
-//for(var i = 0 , len = OrderLayers.length; i < len; i++){
-   //eval(OrderLayers[i]).bringToFront();
-
-
-//geotestlayernorth.bringToFront();
-//geotestlayersouth.bringToFront();
-//geotestlayermiddle.bringToFront();
-
-
-   
 
 
 
