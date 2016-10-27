@@ -50,12 +50,21 @@
   .navbar-brand {
   float: none;
   }
+
+
+
+
 </style>
-<link rel="stylesheet" type="text/css" href="../tipuesearch/tipuesearch.css" >
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="../css/sticky-footer.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Custom CSS -->
-<link href="../css/landing-page.css" rel="stylesheet">
+
 <!-- Custom Fonts -->
 <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
@@ -71,18 +80,15 @@
   #myModal .modal-dialog  {width:350px;
   }
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12" style="padding:0px 0px 0px 0px">
+
             <div id='map'class='custom-popup'></div> 
-        </div>
-    </div>
-</div>
+       
 <!-- Bottom Text -->
 <div class="container">
   <div class="row">
@@ -93,10 +99,12 @@
 
 
 <script>
-          // Tiles and loading location
 
-        var map = L.map('map') 
+// MAP
+
+    var map = L.map('map') 
  
+// PANES
 
     map.createPane('pane250');
     map.getPane('pane250').style.zIndex = 250;
@@ -126,20 +134,18 @@
     map.getPane('paneoutliers256').style.zIndex = 256;
     map.getPane('paneoutliers256').style.pointerEvents = 'none';
 
+    map.createPane('paneviews257');
+    map.getPane('paneviews257').style.zIndex = 257;
+    map.getPane('paneviews257').style.pointerEvents = 'none';
 
+
+// MAP 
 
         L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
         }).addTo(map);
 
-
-
-          
-
-
-map.setView({ lat: 43.39707, lng: -63.77014}, 5);
-
-
+		map.setView({ lat: 43.39707, lng: -63.77014}, 4);
 
         var options = {
             minZoom: 12,
@@ -148,6 +154,7 @@ map.setView({ lat: 43.39707, lng: -63.77014}, 5);
             tms: true,
             zIndex: 2,};
 
+// VAR STYLES for geoj and markers
 
 
         var style = {
@@ -173,108 +180,16 @@ map.setView({ lat: 43.39707, lng: -63.77014}, 5);
         };
 
 
-
-
-         var stylelargepane = {
-         color:"#006666", opacity:".8", weight:".5",fillOpacity:".1"};
-         var stylelargepanemo = {
-         color:"#006666", opacity:".8", weight:"5", fillOpacity:".15"};
-
-
-          function onEachFeaturestylelargepane(feature, layer) {
+          function onEachFeaturestyleviewspane(feature, layer) {
               {
         layer.bindPopup("This is " + feature.properties.title + ", Volume " + feature.properties.volume + ", Part " + feature.properties.part + ", Plate " + feature.properties.number +
         ' </br></br><a class="btn btn-custom btn-sm" href="' + layer.feature.properties.url + '" role="button" target="_blank">view original<\/a>');
-        layer.setStyle(stylelargepane);
-          (function (layer, properties){
-          layer.on("mouseover", function(e){
-            layer.setStyle(stylelargepanemo);
-          });
-          layer.on("mouseout", function(e){
-            layer.setStyle(stylelargepane);
-          });
-        })(layer, feature.properties);
+        (layer, feature.properties);
         }
         };
 
 
-
-
-		var stylemediumpane = {
-         color:"#0033cc", opacity:".8", weight:".75",fillOpacity:".2"};
-         var stylemediumpanemo = {
-         color:"#0033cc", opacity:".8", weight:"5", fillOpacity:".25"};
-
-
-          function onEachFeaturestylemediumpane(feature, layer) {
-              {
-        layer.bindPopup("This is " + feature.properties.title + ", Volume " + feature.properties.volume + ", Part " + feature.properties.part + ", Plate " + feature.properties.number +
-        ' </br></br><a class="btn btn-custom btn-sm" href="' + layer.feature.properties.url + '" role="button" target="_blank">view original<\/a>');
-        layer.setStyle(stylemediumpane);
-          (function (layer, properties){
-          layer.on("mouseover", function(e){
-            layer.setStyle(stylemediumpanemo);
-          });
-          layer.on("mouseout", function(e){
-            layer.setStyle(stylemediumpane);
-          });
-        })(layer, feature.properties);
-        }
-        };
-
-
-        var stylepopoutpane = {
-         color:"#ffff00", opacity:".8", weight:".6",fillOpacity:".2"};
-         var stylepopoutpanemo = {
-         color:"#ffff00", opacity:".8", weight:"4", fillOpacity:".25"};
-
-
-          function onEachFeaturestylepopoutpane(feature, layer) {
-              {
-        layer.bindPopup("This is " + feature.properties.title + ", Volume " + feature.properties.volume + ", Part " + feature.properties.part + ", Plate " + feature.properties.number +
-        ' </br></br><a class="btn btn-custom btn-sm" href="' + layer.feature.properties.url + '" role="button" target="_blank">view original<\/a>');
-        layer.setStyle(stylepopoutpane);
-          (function (layer, properties){
-          layer.on("mouseover", function(e){
-            layer.setStyle(stylepopoutpanemo);
-          });
-          layer.on("mouseout", function(e){
-            layer.setStyle(stylepopoutpane);
-          });
-        })(layer, feature.properties);
-        }
-        };
-
-
-
-
-        var stylecomplexpane = {
-         color:"#009900", opacity:".8", weight:".5",fillOpacity:".2"};
-         var stylecomplexpanemo = {
-         color:"#009900", opacity:".8", weight:"5", fillOpacity:".25"};
-
-
-          function onEachFeaturestylecomplexpane(feature, layer) {
-              {
-        layer.bindPopup("This is " + feature.properties.title + ", Volume " + feature.properties.volume + ", Part " + feature.properties.part + ", Plate " + feature.properties.number +
-        ' </br></br><a class="btn btn-custom btn-sm" href="' + layer.feature.properties.url + '" role="button" target="_blank">view original<\/a>');
-        layer.setStyle(stylecomplexpane);
-          (function (layer, properties){
-          layer.on("mouseover", function(e){
-            layer.setStyle(stylecomplexpanemo);
-          });
-          layer.on("mouseout", function(e){
-            layer.setStyle(stylecomplexpane);
-          });
-        })(layer, feature.properties);
-        }
-        };
-
-
-
-
-
-
+// LOAD NAUT GEOJSON POLYGONS
 
 var _1_1a_10;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-10.geojson",function(data){
@@ -293,17 +208,17 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _1_1a_6;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-6.geojson",function(data){
-      _1_1a_6 = L.geoJson(data, {onEachFeature: onEachFeaturestylelargepane, pane: 'pane250'}).addTo(map);
+      _1_1a_6 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane250'}).addTo(map);
       });
 
 var _1_1a_8_errorplatename1;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1a-8.geojson",function(data){
-      _1_1a_8_errorplatename1 = L.geoJson(data, {onEachFeature: onEachFeaturestylelargepane, pane: 'pane251'}).addTo(map);
+      _1_1a_8_errorplatename1 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane251'}).addTo(map);
       });
 
 var _1_1b_19;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1b-19.geojson",function(data){
-      _1_1b_19 = L.geoJson(data, {onEachFeature: onEachFeaturestylemediumpane, pane: 'pane252'}).addTo(map);
+      _1_1b_19 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane252'}).addTo(map);
       });
 
 var _1_1b_22;
@@ -313,7 +228,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _1_1b_25;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-1b-25.geojson",function(data){
-      _1_1b_25 = L.geoJson(data, {onEachFeature: onEachFeaturestylecomplexpane, pane: 'pane253'}).addTo(map);
+      _1_1b_25 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane253'}).addTo(map);
       });
 
 var _1_1b_26;
@@ -433,7 +348,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _1_2b_54;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-2b-54.geojson",function(data){
-      _1_2b_54 = L.geoJson(data, {onEachFeature: onEachFeaturestylepopoutpane, pane: 'pane254'}).addTo(map);
+      _1_2b_54 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane254'}).addTo(map);
       });
 
 var _1_2b_55;
@@ -443,12 +358,12 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _1_2b_56;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-2b-56.geojson",function(data){
-      _1_2b_56 = L.geoJson(data, {onEachFeature: onEachFeaturestylecomplexpane, pane: 'pane253'}).addTo(map);
+      _1_2b_56 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane253'}).addTo(map);
       });
 
 var _1_2b_57;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/1-2b-57.geojson",function(data){
-      _1_2b_57 = L.geoJson(data, {onEachFeature: onEachFeaturestylepopoutpane, pane: 'pane253'}).addTo(map);
+      _1_2b_57 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane253'}).addTo(map);
       });
 
 var _1_2c_58;
@@ -473,7 +388,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_1a_10;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-1a-10.geojson",function(data){
-      _2_1a_10 = L.geoJson(data, {onEachFeature: onEachFeaturestylecomplexpane, pane: 'pane253'}).addTo(map);
+      _2_1a_10 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane253'}).addTo(map);
       });
 
 var _2_1a_11;
@@ -483,7 +398,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_1a_4;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-1a-4.geojson",function(data){
-      _2_1a_4 = L.geoJson(data, {onEachFeature: onEachFeaturestylelargepane, pane: 'pane251'}).addTo(map);
+      _2_1a_4 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane251'}).addTo(map);
       });
 
 var _2_1a_5;
@@ -493,7 +408,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_1a_7;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-1a-7.geojson",function(data){
-      _2_1a_7 = L.geoJson(data, {onEachFeature: onEachFeaturestylepopoutpane, pane: 'pane253'}).addTo(map);
+      _2_1a_7 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane253'}).addTo(map);
       });
 
 var _2_1a_8;
@@ -523,17 +438,17 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_1b_16;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-1b-16.geojson",function(data){
-      _2_1b_16 = L.geoJson(data, {onEachFeature: onEachFeaturestylecomplexpane, pane: 'pane253'}).addTo(map);
+      _2_1b_16 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane253'}).addTo(map);
       });
 
 var _2_1b_18;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-1b-18.geojson",function(data){
-      _2_1b_18 = L.geoJson(data, {onEachFeature: onEachFeaturestylemediumpane, pane: 'pane252'}).addTo(map);
+      _2_1b_18 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane252'}).addTo(map);
       });
 
 var _2_1b_18a;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-1b-18a.geojson",function(data){
-      _2_1b_18a = L.geoJson(data, {onEachFeature: onEachFeaturestylepopoutpane, pane: 'pane255'}).addTo(map);
+      _2_1b_18a = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane255'}).addTo(map);
       });
 
 var _2_1b_19;
@@ -553,7 +468,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_2a_27a;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-2a-27a.geojson",function(data){
-      _2_2a_27a = L.geoJson(data, {onEachFeature: onEachFeaturestylelargepane, pane: 'pane251'}).addTo(map);
+      _2_2a_27a = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane251'}).addTo(map);
       });
 
 var _2_2a_30;
@@ -563,7 +478,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_2a_31;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-2a-31.geojson",function(data){
-      _2_2a_31 = L.geoJson(data, {onEachFeature: onEachFeaturestylemediumpane, pane: 'pane252'}).addTo(map);
+      _2_2a_31 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane252'}).addTo(map);
       });
 
 var _2_2a_32;
@@ -583,12 +498,12 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_2a_35;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-2a-35.geojson",function(data){
-      _2_2a_35 = L.geoJson(data, {onEachFeature: onEachFeaturestylemediumpane, pane: 'pane252'}).addTo(map);
+      _2_2a_35 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane252'}).addTo(map);
       });
 
 var _2_2a_36;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-2a-36.geojson",function(data){
-      _2_2a_36 = L.geoJson(data, {onEachFeature: onEachFeaturestylecomplexpane, pane: 'pane254'}).addTo(map);
+      _2_2a_36 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane254'}).addTo(map);
       });
 
 var _2_2a_37;
@@ -603,7 +518,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_2b_39;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-2b-39.geojson",function(data){
-      _2_2b_39 = L.geoJson(data, {onEachFeature: onEachFeaturestylemediumpane, pane: 'pane252'}).addTo(map);
+      _2_2b_39 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane252'}).addTo(map);
       });
 
 var _2_2b_41;
@@ -613,7 +528,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_2b_44;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-2b-44.geojson",function(data){
-      _2_2b_44 = L.geoJson(data, {onEachFeature: onEachFeaturestylemediumpane, pane: 'pane252'}).addTo(map);
+      _2_2b_44 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane252'}).addTo(map);
       });
 
 var _2_2b_45;
@@ -623,7 +538,7 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
 
 var _2_2b_47;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-2b-47.geojson",function(data){
-      _2_2b_47 = L.geoJson(data, {onEachFeature: onEachFeaturestylecomplexpane, pane: 'pane254'}).addTo(map);
+      _2_2b_47 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane254'}).addTo(map);
       });
 
 var _2_2b_51;
@@ -643,12 +558,12 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
  
 var _2_2b_57b;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-2b-57b.geojson",function(data){
-      _2_2b_57b = L.geoJson(data, {onEachFeature: onEachFeaturestylemediumpane, pane: 'pane252'}).addTo(map);
+      _2_2b_57b = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane252'}).addTo(map);
       });
 
 var _2_3_63;
 $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/maps/2-3-63.geojson",function(data){
-      _2_3_63 = L.geoJson(data, {onEachFeature: onEachFeaturestylelargepane, pane: 'pane250'}).addTo(map);
+      _2_3_63 = L.geoJson(data, {onEachFeature: onEachFeature, pane: 'pane250'}).addTo(map);
       });
 
 var _2_3_65;
@@ -697,14 +612,113 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
       });
 
 
+// LOAD VIEW MARKERS GEOJSONS
 
 
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-1a-10-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-1a-43.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-1b-17.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-1b-19-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-1b-21.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-1b-23.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-1c-34-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-36.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-37-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-37-v2.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-39-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-39-v2.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-41.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-42-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-42-v2.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-43-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2a-45.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2b-47-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2b-49-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2b-51-v1.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2c-59.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
+
+$.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master/views/1-2c-65.geojson",function(data){
+  L.geoJson(data, {onEachFeature: onEachFeaturestyleviewspane, pane: 'paneviews257'}).addTo(map);
+      });
 
 
+// LA, NC, JAMAICA Markers
+
+var LA = L.marker([30.9484, -91.5698]).bindPopup('Zoom in to see 3 nautical maps in North Carolina.'),
+
+    NC = L.marker([32.5503, -80.2971]).bindPopup('Zoom in to see 3 nautical maps in North Carolina.'),
+
+    Jamaica = L.marker([18.1096, -77.2975]).bindPopup('Zoom in to see 3 nautical maps in Jamaica');
+
+var popupmarker = L.layerGroup([LA, NC, Jamaica]).addTo(map);
 
 
 
 </script>
+
+
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -714,6 +728,9 @@ $.getJSON("https://raw.githubusercontent.com/ect123/Des-Barres-findingaid/master
   ga('create', 'UA-47313789-1', 'auto');
   ga('send', 'pageview');
 </script>
+
+
+
 
 </body>
 </html>
